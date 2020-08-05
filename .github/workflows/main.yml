@@ -13,5 +13,15 @@ jobs:
   run-tests:
     runs-on: self-hosted
     steps:
-      - name: Check out source code
+      # check out the pull request's source code
+      - name: check out source code
         uses: actions/checkout@v2
+
+      # install go
+      - name: set up go
+        uses: actions/setup-go@v2-beta
+        with:
+          go-version: "^1.14"
+      - name: print go version
+        run: go version
+      
