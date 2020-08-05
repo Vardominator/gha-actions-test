@@ -1,6 +1,7 @@
 name: main-workflow
 
-# env: {}
+env:
+  IMAGE_REPOSITORY: vardominator/foobar
 
 on:
   push:
@@ -13,7 +14,7 @@ on:
 jobs:
   # run all unit tests
   run-tests:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     steps:
       # check out the pull request's source code
       - name: check out source code
@@ -30,4 +31,11 @@ jobs:
       # run unit tests
       - name: run unit tests
         run: go test -v ./...
+
+  build-and-release:
+    runs-on: self-hosted
+    steps:
+      # check out source code
+      - name: check out source code
+        uses: actions/checkout@v2
       
