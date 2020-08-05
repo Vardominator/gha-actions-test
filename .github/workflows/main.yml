@@ -2,14 +2,33 @@ on: [push]
 
 jobs:
   hello_world_job:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     name: A job to say hello
     steps:
-    - name: Hello world action step
-      id: hello
-      uses: actions/hello-world-docker-action@v1
+    - name: Checkout repo
+      uses: actions/checkout@v2.1.0
+    - name: Build and tag Docker Image
+      run: |
+        docker build .
+    - name: Install OpenVPN
+      id: connect_vpn
+      uses: golfzaptw/action-connect-ovpn@master
       with:
-        who-to-greet: 'Mona the Octocat'
-    # Use the output from the `hello` step
-    - name: Get the output time
-      run: echo "The time was ${{ steps.hello.outputs.time }}"
+        PING_URL: '127.0.0.1'
+        FILE_OVPN: '.github/vpn/config.ovpn'
+        SECRET: ${{ secrets.SECRET_USERNAME_PASSWORD }}
+        TLS_KEY: ${{ secrets.TLS_KEY }}
+      env:
+        CA_CRT: ${{ secrets.CA_CRT}}
+        USER_CRT: ${{ secrets.USER_CRT }}
+        USER_KEY: ${{ secrets.USER_KEY }}
+    - name: Check Connect VPN
+      run: echo ${{ steps.connect_vpn.outputs.STATUS }}
+    - name: Sign Docker Image
+      id: sign_image
+      uses: Vardominator/docker-notary-action@v1
+      with:
+        NOTARY_SERVER: 'https://notary.internal.dnanexus.com:443'
+    - name: kill vpn
+      if: always()
+      run: sudo killall openvpn
