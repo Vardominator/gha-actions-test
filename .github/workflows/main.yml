@@ -1,5 +1,7 @@
 name: main-workflow
 
+# env: {}
+
 on:
   push:
     branches:
@@ -24,4 +26,8 @@ jobs:
           go-version: "^1.14"
       - name: print go version
         run: go version
+
+      # run unit tests
+      - name: run unit tests
+        run: go test -v ./...
       
