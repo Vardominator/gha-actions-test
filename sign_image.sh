@@ -10,7 +10,7 @@ docker trust signer add --key /tmp/decoded.pub gha_signer 263799606133.dkr.ecr.u
 
 docker trust sign 263799606133.dkr.ecr.us-east-1.amazonaws.com/notary/signtest2:latest
 
-docker push 263799606133.dkr.ecr.us-east-1.amazonaws.com/notary/signtest2:latest
+# push
 
 ls ~/.docker/trust
 
