@@ -8,5 +8,4 @@ docker trust signer add --key /tmp/decoded.pub gha_signer 263799606133.dkr.ecr.u
 
 ls ~/.docker/trust
 
-
 # rm /tmp/delegation.pub
