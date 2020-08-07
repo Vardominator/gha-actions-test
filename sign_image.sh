@@ -1,0 +1,3 @@
+#!/bin/bash
+
+echo $NOTARY_SIGNER_DELEGATION
