@@ -2,15 +2,15 @@
 
 # prepare signer delegation key
 echo $NOTARY_SIGNER_DELEGATION > /tmp/encoded.key
-cat /tmp/encoded.key | base64 --decode > /tmp/decoded.key
-chmod 600 /tmp/decoded.key
+cat /tmp/encoded.key | base64 --decode > /tmp/${NOTARY_SIGNER_DELEGATION_HASH}.key
+chmod 600 /tmp/${NOTARY_SIGNER_DELEGATION_HASH}.key
 
 # add signer
-docker trust key load /tmp/decoded.key --name ${SIGNER_NAME}
+docker trust key load /tmp/${NOTARY_SIGNER_DELEGATION_HASH}.key --name ${SIGNER_NAME}
 
 # build
 # ...
-sleep 5s
+sleep 2s
 
 docker trust sign ${IMAGE_REPOSITORY}:${IMAGE_TAG}
 
