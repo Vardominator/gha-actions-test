@@ -3,7 +3,7 @@ name: main-workflow
 env:
   DOCKER_CONTENT_TRUST: 1
   DOCKER_CONTENT_TRUST_SERVER: https://dev-notary.internal.dnanexus.com
-  NOTARY_SIGNER_DELEGATION: "{{ secrets.NOTARY_SIGNER_DELEGATION }}"
+  NOTARY_SIGNER_DELEGATION: "${{ secrets.NOTARY_SIGNER_DELEGATION }}"
 
 on:
   push:
