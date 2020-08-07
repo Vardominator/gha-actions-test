@@ -2,7 +2,7 @@ name: main-workflow
 
 env:
   DOCKER_CONTENT_TRUST: 1
-  DOCKER_CONTENT_TRUST_SERVER: https://dev-notary.internal.dnanexus.com
+  DOCKER_CONTENT_TRUST_SERVER: "${{ secrets.DOCKER_CONTENT_TRUST_SERVER }}"
   NOTARY_SIGNER_DELEGATION: "${{ secrets.NOTARY_SIGNER_DELEGATION }}"
   DOCKER_CONTENT_TRUST_REPOSITORY_PASSPHRASE: "${{ secrets.DOCKER_CONTENT_TRUST_REPOSITORY_PASSPHRASE }}"
 
@@ -15,43 +15,8 @@ on:
       - master
 
 jobs:
-  # # run all unit tests
-  # run-tests:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     # check out the pull request's source code
-  #     - name: check out source code
-  #       uses: actions/checkout@v2
-
-  #     # install go
-  #     - name: set up go
-  #       uses: actions/setup-go@v2-beta
-  #       with:
-  #         go-version: "^1.14"
-  #     - name: print go version
-  #       run: go version
-
-  #     # run unit tests
-  #     - name: run unit tests
-  #       run: go test -v ./...
-
-  # build-and-release:
-  #   runs-on: self-hosted
-  #   steps:
-  #     # check out source code
-  #     - name: check out source code
-  #       uses: actions/checkout@v2
-      
-  #     # build and push container images
-  #     - name: build and bush container images
-  #       uses: docker/build-push-actions@v1
-  #       with:
-  #         username: ${{ secrets.DOCKER_USERNAME }}
-  #         password: ${{ secrets.DOCKER_PASSWORD }}
-  #         repository: ${{ env.IMAGE_REPOSITORY }}
-  #         tag_with_ref: true
-  #         tag_with_sha: true
-  test-container-signing:
+  # build
+  sign-image:
     runs-on: self-hosted
     steps:
       # check out source code
@@ -61,6 +26,3 @@ jobs:
       # sign image
       - name: test docker trust
         run: ./sign_image.sh
-
-      # - name: docker notary
-      #   uses: Vardominator/docker-notary-action@master
