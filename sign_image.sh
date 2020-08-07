@@ -17,4 +17,4 @@ docker trust sign 263799606133.dkr.ecr.us-east-1.amazonaws.com/notary/signtest2:
 # ...
 
 # cleanup
-rm /tmp/delegation.pub
+rm /tmp/encoded.pub /tmp/decoded.pub
