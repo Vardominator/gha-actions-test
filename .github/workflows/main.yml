@@ -50,7 +50,6 @@ jobs:
   #         repository: ${{ env.IMAGE_REPOSITORY }}
   #         tag_with_ref: true
   #         tag_with_sha: true
-
   test-container-signing:
     runs-on: self-hosted
     steps:
