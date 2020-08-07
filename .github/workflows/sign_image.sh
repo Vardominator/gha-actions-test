@@ -6,7 +6,8 @@ cat /tmp/encoded.key | base64 --decode > /tmp/${NOTARY_SIGNER_DELEGATION_HASH}.k
 chmod 600 /tmp/${NOTARY_SIGNER_DELEGATION_HASH}.key
 
 # add signer
-docker trust key load /tmp/${NOTARY_SIGNER_DELEGATION_HASH}.key --name ${SIGNER_NAME}
+cp /tmp/${NOTARY_SIGNER_DELEGATION_HASH}.key ~/.docker/trust/private/
+docker trust key load ${NOTARY_SIGNER_DELEGATION_HASH}.key --name ${SIGNER_NAME}
 
 # build
 # ...
