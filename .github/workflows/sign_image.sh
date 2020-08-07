@@ -6,7 +6,7 @@ cat /tmp/encoded.pub | base64 --decode > /tmp/decoded.pub
 chmod 600 /tmp/decoded.pub
 
 # add signer
-# docker trust signer add --key /tmp/decoded.pub ${SIGNER_NAME} ${IMAGE_REPOSITORY}
+docker trust key load /tmp/decoded.pub --name ${SIGNER_NAME}
 
 # build
 # ...
