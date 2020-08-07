@@ -8,7 +8,6 @@ chmod 600 /tmp/decoded.pub
 # add signer
 docker trust signer add --key /tmp/decoded.pub ${SIGNER_NAME} ${IMAGE_REPOSITORY}
 
-
 # build
 # ...
 
