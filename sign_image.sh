@@ -11,7 +11,7 @@ docker trust signer add --key /tmp/decoded.pub gha_signer 263799606133.dkr.ecr.u
 # build
 # ...
 
-docker trust sign 263799606133.dkr.ecr.us-east-1.amazonaws.com/notary/signtest2:latest
+docker trust sign ${IMAGE_REPOSITORY}:${IMAGE_TAG}
 
 # push
 # ...
