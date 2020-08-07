@@ -1,5 +1,0 @@
-fileignoreconfig:
-- filename: .github/workflows/main.yml
-  checksum: 58daa3d403494bebc1fbd56fc2cd6f4632665b7caf573033f4bd49b711654a80
-  ignore_detectors: []
-scopeconfig: []
