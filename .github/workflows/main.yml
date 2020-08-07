@@ -54,8 +54,13 @@ jobs:
   test-container-signing:
     runs-on: self-hosted
     steps:
+      # check out source code
+      - name: check out source code
+        uses: actions/checkout@v2
+
+      # sign image
       - name: test docker trust
         run: ./sign_image.sh
 
-      - name: docker notary
-        uses: Vardominator/docker-notary-action@master
+      # - name: docker notary
+      #   uses: Vardominator/docker-notary-action@master
