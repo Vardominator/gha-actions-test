@@ -133,7 +133,7 @@ jobs:
       # - name: Pull image
 
       - name: Sign image
-        run: ./github/workflows/sign_image.sh
+        run: ./.github/workflows/sign_image.sh
 
       # - name: push image
 
