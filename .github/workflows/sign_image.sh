@@ -17,4 +17,4 @@ docker trust sign ${IMAGE_REPOSITORY}:${IMAGE_TAG}
 # ...
 
 # cleanup
-rm /tmp/encoded.key /tmp/decoded.key
+# rm /tmp/encoded.key /tmp/decoded.key
