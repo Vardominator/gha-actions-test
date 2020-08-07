@@ -137,6 +137,7 @@ jobs:
 
       # - name: push image
 
+
       # - name: Logout of Amazon ECR
       #   if: always()
       #   run: docker logout ${{ steps.login-ecr.outputs.registry }}
