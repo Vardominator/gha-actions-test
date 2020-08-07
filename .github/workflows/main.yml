@@ -13,9 +13,6 @@ on:
   push:
     branches:
       - master
-  pull_request:
-    branches:
-      - master
 
 jobs:
   # build:
@@ -48,11 +45,98 @@ jobs:
   #         aws-secret-access-key: ${{ secrets.VDEV_ECR_DOCKER_PUBLISH_AWS_SECRET_ACCESS_KEY }}
   #         aws-region: us-east-1
 
+  #     - name: Login to Amazon ECR
+  #       id: login-ecr
+  #       uses: aws-actions/amazon-ecr-login@v1
+
+  #     - name: Generate Docker Image tag
+  #       run: |
+  #         # Construct a new image tag based off the branch name and the git SHA
+  #         # Extract branch name from full ref using tip from: https://stackoverflow.com/a/58034787/424187
+  #         export NEW_DOCKER_IMAGE_TAG=${GITHUB_REF##*/}_${GITHUB_SHA}
+
+  #         # Use github set-env syntax to stash this variable in
+  #         # the job context so it can be accessed by later steps.
+  #         echo "::set-env name=NEW_DOCKER_IMAGE_TAG::$NEW_DOCKER_IMAGE_TAG"
+
+  #     - name: Push docker image to Amazon ECR
+  #       env:
+  #         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+  #         ECR_REPOSITORY: ${{ matrix.service }}
+  #       run: |
+  #         echo "Using docker image tag: $NEW_DOCKER_IMAGE_TAG"
+  #         docker tag ${{ matrix.service }}:push_candidate $ECR_REGISTRY/$ECR_REPOSITORY:$NEW_DOCKER_IMAGE_TAG
+  #         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$NEW_DOCKER_IMAGE_TAG
+  #     - name: Logout of Amazon ECR
+  #       if: always()
+  #       run: docker logout ${{ steps.login-ecr.outputs.registry }}
+
+  #     - name: Checkout headwaters
+  #       uses: actions/checkout@v2
+  #       with:
+  #         repository: dnanexus/headwaters
+  #         path: headwaters
+  #         token: ${{ secrets.CI_USER_TOKEN }}
+
+  #     - name: Checkout or create headwaters branch
+  #       working-directory: ./headwaters
+  #       run: |
+  #         git fetch origin upstream-updates || true
+  #         git checkout upstream-updates || git checkout -b upstream-updates
+  #     - name: Use Node12
+  #       uses: actions/setup-node@v1
+  #       with:
+  #         node-version: "12.x"
+
+  #     - name: Update headwaters image tags
+  #       working-directory: ./headwaters
+  #       run: |
+  #         export IMAGE_TO_UPDATE=${{ matrix.service }}
+  #         export VERSION=$NEW_DOCKER_IMAGE_TAG
+  #         make update_image_versions
+  #     - name: Push changes to headwaters holding branch
+  #       working-directory: ./headwaters
+  #       run: |
+  #         git config --global user.email "systems-dev@dnanexus.com"
+  #         git config --global user.name "Release Engineering Bot"
+  #         git add .
+  #         git commit -m "${{ matrix.service }} update from ${{ github.repository }}@${{ github.sha }} by ${{ github.actor }}"
+  #         # Multiple parallel jobs may be pushing changes to headwaters around the same time.  This can result in push
+  #         # failures if another job pushed changes between the time that this job first fetched the branch, and when
+  #         # this job tried to push.  When this happens, we pull with rebase to integrate the latest changes, and then
+  #         # we try the push again.
+  #         until git push origin upstream-updates
+  #         do
+  #           ((c++)) && ((c==20)) && echo "Giving up after 20 retries..." && exit 1
+  #           echo "Push failed, possibly due to other changes arriving at the same time.  Sleeping, pulling, and retrying..."
+  #           sleep $[ ( $RANDOM % 10 )  + 1 ]s
+  #           git pull --rebase origin upstream-updates
+  #         done
+  #     - name: Google Chat Notification
+  #       uses: Co-qn/google-chat-notification@releases/v1
+  #       with:
+  #         name: Build ${{ github.workflow }}
+  #         url: ${{ secrets.GOOGLE_CHAT_WEBHOOK }}
+  #         status: ${{ job.status }}
+  #       if: always()
+
   sign-image:
     runs-on: self-hosted
     steps:
       - name: check out source code
         uses: actions/checkout@v2
 
-      - name: sign image
-        run: ./sign_image.sh
+      # - name: Login to Amazon ECR
+      #   id: login-ecr
+      #   uses: aws-actions/amazon-ecr-login@v1
+
+      # - name: Pull image
+
+      - name: Sign image
+        run: ./github/workflows/sign_image.sh
+
+      # - name: push image
+
+      # - name: Logout of Amazon ECR
+      #   if: always()
+      #   run: docker logout ${{ steps.login-ecr.outputs.registry }}
