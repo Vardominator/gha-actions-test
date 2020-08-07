@@ -52,5 +52,8 @@ jobs:
   test-container-signing:
     runs-on: self-hosted
     steps:
+      - name: test docker trust
+        run: docker trust --help
+        
       - name: docker notary
         uses: Vardominator/docker-notary-action@master
