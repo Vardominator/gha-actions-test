@@ -3,7 +3,7 @@ name: main-workflow
 env:
   DOCKER_CONTENT_TRUST: 1
   DOCKER_CONTENT_TRUST_SERVER: "${{ secrets.DOCKER_CONTENT_TRUST_SERVER }}"
-  NOTARY_SIGNER_DELEGATION: "${{ secrets.NOTARY_SIGNER_DELEGATION_BLAH }}"
+  NOTARY_SIGNER_DELEGATION: "${{ secrets.NOTARY_SIGNER_DELEGATION }}"
   SIGNER_NAME: gha_signer
   IMAGE_REPOSITORY: 263799606133.dkr.ecr.us-east-1.amazonaws.com/notary/signtest2
   IMAGE_TAG: latest
