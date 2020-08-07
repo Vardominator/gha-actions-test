@@ -18,6 +18,36 @@ on:
       - master
 
 jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        include:
+          - service: testserver
+            directory: testserver
+            dockerfile: testserver.Dockerfile
+
+    # steps:
+    #   - name: Checkout Repo
+    #     uses: actions/checkout@v2.1.0
+    #     # with:
+    #     #   token: ${{ secrets.CI_USER_TOKEN }}
+    #     #   submodules: "true"
+    #   - name: Build and tag docker image
+    #     run: |
+    #       docker build \
+    #       -f ${{ matrix.directory }}/${{ matrix.dockerfile }} \
+    #       -t ${{ matrix.service }}:push_candidate .
+    #   # - name: Check docker image for vulnerabilities with Snyk
+    #   # ...
+    #   - name: Configure AWS Credentials
+    #     uses: aws-actions/configure-aws-credentials@v1
+    #     with:
+    #       aws-access-key-id: ${{ secrets.VDEV_ECR_DOCKER_PUBLISH_AWS_ACCESS_KEY_ID }}
+    #       aws-secret-access-key: ${{ secrets.VDEV_ECR_DOCKER_PUBLISH_AWS_SECRET_ACCESS_KEY }}
+    #       aws-region: us-east-1
+
   sign-image:
     runs-on: self-hosted
     steps:
