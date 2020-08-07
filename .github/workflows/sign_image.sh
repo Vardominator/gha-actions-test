@@ -10,6 +10,7 @@ docker trust key load /tmp/decoded.key --name ${SIGNER_NAME}
 
 # build
 # ...
+sleep 5s
 
 docker trust sign ${IMAGE_REPOSITORY}:${IMAGE_TAG}
 
