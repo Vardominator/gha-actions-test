@@ -6,6 +6,12 @@ chmod 600 /tmp/decoded.pub
 
 docker trust signer add --key /tmp/decoded.pub gha_signer 263799606133.dkr.ecr.us-east-1.amazonaws.com/notary/signtest2
 
+# build
+
+docker trust sign 263799606133.dkr.ecr.us-east-1.amazonaws.com/notary/signtest2:latest
+
+docker push 263799606133.dkr.ecr.us-east-1.amazonaws.com/notary/signtest2:latest
+
 ls ~/.docker/trust
 
 # rm /tmp/delegation.pub
